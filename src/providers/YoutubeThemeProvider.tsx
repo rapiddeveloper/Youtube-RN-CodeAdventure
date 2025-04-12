@@ -1,50 +1,59 @@
-import React, { createContext, useContext, ReactNode, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+} from "react";
 import { YoutubeTheme } from "../@types/YoutubeTheme";
 import { youtubeLightTheme, youtubeDarkTheme } from "../theme/theme";
-import { Appearance } from "react-native";
+import { Appearance, useColorScheme } from "react-native";
 
 type YoutubeThemeProviderProps = {
   children: ReactNode;
-  isDarkMode?: boolean; // Optional prop to toggle between light and dark themes
 };
 
-const YoutubeThemeContext = createContext<YoutubeTheme | undefined>(undefined);
+interface ThemeObj {
+  theme: YoutubeTheme;
+  toggleTheme: () => void;
+}
+
+const YoutubeThemeContext = createContext<ThemeObj | undefined>(undefined);
 
 export const YoutubeThemeProvider = ({
-  children,
-  isDarkMode = undefined,
+  children
+ 
 }: YoutubeThemeProviderProps) => {
-    const [theme, setTheme] = useState<YoutubeTheme>(
-        isDarkMode !== undefined
-          ? isDarkMode
-            ? youtubeDarkTheme
-            : youtubeLightTheme
-          : Appearance.getColorScheme() === "dark"
-          ? youtubeDarkTheme
-          : youtubeLightTheme
-      );
-    
-      useEffect(() => {
-        if (isDarkMode !== undefined) {
-          setTheme(isDarkMode ? youtubeDarkTheme : youtubeLightTheme);
-        } else {
-          const listener = Appearance.addChangeListener(({ colorScheme }) => {
-            setTheme(colorScheme === "dark" ? youtubeDarkTheme : youtubeLightTheme);
-          });
-    
-          return () => listener.remove();
-        }
-      }, [isDarkMode]);
+  const colorScheme = useColorScheme();
+  
+  const [theme, setTheme] = useState<YoutubeTheme>(
+    colorScheme === "dark" ? youtubeDarkTheme : youtubeLightTheme
+  );
 
+  useEffect(() => {
+    const subscription = Appearance.addChangeListener(({ colorScheme }) => {
+       setTheme(colorScheme === "dark" ? youtubeDarkTheme : youtubeLightTheme);
+    });
 
+    return () => subscription.remove();
+  }, []);
+
+  const toggleTheme = () => {
+    Appearance.setColorScheme(theme === youtubeDarkTheme ? "light" : "dark");
+  };
+
+  const themeObj: ThemeObj = {
+    theme,
+    toggleTheme,
+  };
   return (
-    <YoutubeThemeContext.Provider value={theme}>
+    <YoutubeThemeContext.Provider value={themeObj}>
       {children}
     </YoutubeThemeContext.Provider>
   );
 };
 
-export const useYoutubeTheme = (): YoutubeTheme => {
+export const useYoutubeTheme = (): ThemeObj => {
   const context = useContext(YoutubeThemeContext);
   if (!context) {
     throw new Error(

@@ -6,6 +6,7 @@ import ProfilePhoto from "./ProfilePhoto";
 
 import Feather from "@expo/vector-icons/Feather";
 import { useYoutubeTheme } from "../providers/YoutubeThemeProvider";
+import { IconButton } from "./Inputs/IconButton";
 
 interface PostViewProps {
   post: Post;
@@ -13,36 +14,54 @@ interface PostViewProps {
 
 const PostView = (props: PostViewProps) => {
   const { post } = props;
-  const theme = useYoutubeTheme();
+  const { theme } = useYoutubeTheme();
   const { colors } = theme;
-  const {typography} = theme;
+  const { typography } = theme;
   return (
-    <Stack style={{width: "100%"}}>
+    <Stack style={{ width: "100%" }}>
       <Image
         source={{ uri: post.thumbnail.high.url }}
         style={{ width: "auto", height: 325 }}
       />
-       
-      <Stack space={2} horizontal style={[styles.footer, {backgroundColor: colors.surface} ]}>
+
+      <Stack
+        space={2}
+        horizontal
+        style={[styles.footer, { backgroundColor: colors.surface }]}
+      >
         <ProfilePhoto url={post.channelProfileURL} />
         <Stack space={2} style={styles.metadata}>
-          <Text   style={[styles.title, typography.bodyLarge, {color: colors.onSurface}]}>{post.title}</Text>
-          <Stack horizontal space={1} align={'center'}>
-            <Text  style={[typography.labelMedium, {color: colors.outline}]}>{post.channelTitle}</Text>
+          <Text
+            style={[
+              styles.title,
+              typography.bodyLarge,
+              { color: colors.onSurface },
+            ]}
+          >
+            {post.title}
+          </Text>
+          <Stack horizontal space={1} align={"center"}>
+            <Text style={[typography.labelMedium, { color: colors.outline }]}>
+              {post.channelTitle}
+            </Text>
             <Box style={styles.seperator}></Box>
-            <Text  style={[typography.labelMedium, {color: colors.outline}]}>{post.viewCount}</Text>
+            <Text style={[typography.labelMedium, { color: colors.outline }]}>
+              {post.viewCount}
+            </Text>
             <Box style={styles.seperator}></Box>
-            <Text  style={[typography.labelMedium, {color: colors.outline}]}>{post.publishedAt}</Text>
+            <Text style={[typography.labelMedium, { color: colors.outline }]}>
+              {post.publishedAt}
+            </Text>
           </Stack>
         </Stack>
-        <Feather
-              name="more-vertical"
-              size={24}
-             // style={styles.moreIcon}
-              color={colors.onSurface}
-            />
+        <IconButton
+        accessibilityLabel="More actions"
+          icon={
+            <Feather name="more-vertical" size={24} color={colors.onSurface} />
+          }
+          onPress={() => console.log("Icon button pressed")}
+        />
       </Stack>
-      
     </Stack>
   );
 };
@@ -50,12 +69,10 @@ const PostView = (props: PostViewProps) => {
 export default PostView;
 
 const styles = StyleSheet.create({
-
   metadata: {
-    width: Dimensions.get('screen').width * 0.7
+    width: Dimensions.get("screen").width * 0.7,
   },
-  title: {
-   },
+  title: {},
   footer: {
     paddingBlockStart: 16,
     paddingBlockEnd: 22,
