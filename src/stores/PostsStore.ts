@@ -51,7 +51,7 @@ const usePostsStore = create<PostsStore>((set, get) => ({
     }
     
    
-    set({posts: [posts[0]]})
+    set({posts: posts})
   },
 }));
 
