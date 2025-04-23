@@ -6,8 +6,10 @@ import YoutubeTabStack from "./src/navigation/YoutubeTabStack";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { YoutubeThemeProvider } from "./src/providers/YoutubeThemeProvider";
+import { RootStackParamsList } from "./src/@types/Navigation";
+import PostDetail from "./src/pages/postdetail";
 
-const RootStack = createNativeStackNavigator();
+const RootStack = createNativeStackNavigator<RootStackParamsList>();
 
 export default function App() {
 
@@ -41,6 +43,7 @@ export default function App() {
         <SafeAreaView edges={["top"]} style={backgroundStyle}>
           <RootStack.Navigator screenOptions={{ headerShown: false }}>
             <RootStack.Screen name="YoutubeTabs" component={YoutubeTabStack} />
+            <RootStack.Screen options={{presentation: 'fullScreenModal'}} name="PostDetails" component={PostDetail} />
           </RootStack.Navigator>
         </SafeAreaView>
       </SafeAreaProvider>
