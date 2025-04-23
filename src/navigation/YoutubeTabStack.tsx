@@ -11,13 +11,13 @@ import Shorts from "../pages/shorts";
 import Subscriptions from "../pages/subscriptions";
 import Account from "../pages/account";
 import HomeIcon from "../components/Icons/HomeIcon";
-import CreateIcon from "../components/Icons/CreateIcon";
 import ShortsIcon from "../components/Icons/ShortsIcon";
 import SubscriptionsIcon from "../components/Icons/SubscriptionsIcon";
 import { PlatformPressable } from "@react-navigation/elements";
 import { Stack } from "@mobily/stacks";
 import { useLinkBuilder } from "@react-navigation/native";
-import { useYoutubeTheme } from "../providers/YoutubeThemeProvider";
+import { useYoutubeTheme } from "../data/providers/YoutubeThemeProvider";
+import { YoutubeTabStackParamList } from "../@types/Navigation";
 
 const BottomTabs = createBottomTabNavigator<YoutubeTabStackParamList>();
 

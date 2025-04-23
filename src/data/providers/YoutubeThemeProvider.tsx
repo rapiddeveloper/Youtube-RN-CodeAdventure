@@ -5,9 +5,9 @@ import React, {
   useState,
   useEffect,
 } from "react";
-import { YoutubeTheme } from "../@types/YoutubeTheme";
-import { youtubeLightTheme, youtubeDarkTheme } from "../theme/theme";
+ import { youtubeLightTheme, youtubeDarkTheme } from "../../theme/theme";
 import { Appearance, useColorScheme } from "react-native";
+import { YoutubeTheme } from "../../@types/YoutubeTheme";
 
 type YoutubeThemeProviderProps = {
   children: ReactNode;

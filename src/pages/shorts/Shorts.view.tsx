@@ -4,7 +4,7 @@ import {Button, View} from 'react-native';
 
 import { ShortsViewProps } from './Shorts.types';
 import  styles  from './Shorts.styles';
-import { useYoutubeTheme } from '../../providers/YoutubeThemeProvider';
+import { useYoutubeTheme } from '../../data/providers/YoutubeThemeProvider';
  
 const ShortsView: React.FC<ShortsViewProps> = (props) => {
 

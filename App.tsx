@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import YoutubeTabStack from "./src/navigation/YoutubeTabStack";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
-import { YoutubeThemeProvider } from "./src/providers/YoutubeThemeProvider";
+import { YoutubeThemeProvider } from "./src/data/providers/YoutubeThemeProvider";
 import { RootStackParamsList } from "./src/@types/Navigation";
 import PostDetail from "./src/pages/postdetail";
 

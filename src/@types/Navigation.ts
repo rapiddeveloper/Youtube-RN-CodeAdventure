@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { Post } from "../Domain/Models/Post"
 
-type YoutubeTabStackParamList = {
+export type YoutubeTabStackParamList = {
     Home: undefined
     Shorts: undefined 
     Create: undefined

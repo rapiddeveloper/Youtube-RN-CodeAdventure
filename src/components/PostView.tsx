@@ -6,8 +6,8 @@ import ProfilePhoto from "./ProfilePhoto";
 import {Image} from "expo-image"
 
 import Feather from "@expo/vector-icons/Feather";
-import { useYoutubeTheme } from "../providers/YoutubeThemeProvider";
 import { IconButton } from "./Inputs/IconButton";
+import { useYoutubeTheme } from "../data/providers/YoutubeThemeProvider";
 
 interface PostViewProps {
   post: Post;
