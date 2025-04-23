@@ -4,7 +4,7 @@ import { DataObj } from "../@types/DataObj";
 import { YoutubeVideosResponse  } from "./api/models/YoutubeResponse";
 import { YoutubeChannelsResponse } from "./api/models/YoutubeChannelsResponse";
 
-class VideosAPIService {
+export class VideosAPIService {
 
     private apiKey = "AIzaSyB-8s0cTHI5xXxD-WjqpwRJm2NpBsmJb_Q"
     private baseURL = "https://www.googleapis.com"

@@ -18,6 +18,7 @@ import { Stack } from "@mobily/stacks";
 import { useLinkBuilder } from "@react-navigation/native";
 import { useYoutubeTheme } from "../data/providers/YoutubeThemeProvider";
 import { YoutubeTabStackParamList } from "../@types/Navigation";
+import { PostsStoreProvider } from "../data/providers/PostsStoreProvider";
 
 const BottomTabs = createBottomTabNavigator<YoutubeTabStackParamList>();
 
@@ -153,7 +154,20 @@ const YoutubeTabStack = () => {
       initialRouteName="Home"
       tabBar={(props) => <MyTabBar {...props} />}
     >
-      <BottomTabs.Screen name="Home" component={Home} />
+      {/* <BottomTabs.Screen name="Home" component={()=>(
+        <PostsStoreProvider>
+          <Home />
+        </PostsStoreProvider>
+      )} /> */}
+        <BottomTabs.Screen name="Home" >
+          {
+            ()=>(
+              <PostsStoreProvider>
+                <Home />
+              </PostsStoreProvider>
+            )
+          }    
+      </BottomTabs.Screen>
       <BottomTabs.Screen name="Shorts" component={Shorts} />
       <BottomTabs.Screen name="Create" component={Create} />
       <BottomTabs.Screen name="Subscriptions" component={Subscriptions} />

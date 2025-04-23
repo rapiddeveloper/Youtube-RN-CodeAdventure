@@ -2,15 +2,17 @@ import { create, createStore } from "zustand";
 import videosAPIService from "../services/VideosAPIService";
 import { RequestStatus, ResultType } from "../@types/Result";
 import { MediaKind, Post } from "../Domain/Models/Post";
+import PostRepository from "../data/repositories/post/PostRepostitory";
 
 
 
-interface PostsStore {
+export interface PostsStore {
   posts: Post[]
   loadPosts: () => Promise<void>
   isLoadingPosts: RequestStatus
 }
 
+/*
 const usePostsStore = create<PostsStore>((set, get) => ({
   // isLoadingVideos: false,
   isLoadingPosts: RequestStatus.Idle,
@@ -114,4 +116,31 @@ function formatViewCountString(input: string): string {
     return `${diffYear} year${diffYear === 1 ? '' : 's'} ago`;
   }
 
-export default usePostsStore
+export default usePostsStore */
+
+const createPostsStore = (postsRepository: PostRepository) => createStore<PostsStore>()((set, get) => ({
+  // isLoadingVideos: false,
+  isLoadingPosts: RequestStatus.Idle,
+  posts: [],
+  loadPosts: async ():Promise<void> => {
+    set({isLoadingPosts: RequestStatus.Loading})
+    let {posts, error} = await postsRepository.getAllPosts();
+     if (error !== undefined) {
+      set({isLoadingPosts: RequestStatus.Idle})
+      return;
+    }
+
+    if (posts === undefined) {
+      set({isLoadingPosts: RequestStatus.Idle})
+      return;
+    }
+
+    set({isLoadingPosts: RequestStatus.Success})
+    set({posts: posts})
+   
+   },
+}));
+
+
+
+export default createPostsStore

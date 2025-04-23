@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 
 import { HomeProps } from './Home.types';
 import HomeView from './Home.view';
-import usePostsStore from '../../stores/PostsStore';
-import { useShallow } from 'zustand/shallow';
+ import { useShallow } from 'zustand/shallow';
 import { RequestStatus } from '../../@types/Result';
+import { usePostsStore } from '../../data/providers/PostsStoreProvider';
 
 
 const Home: React.FC<HomeProps> = (props) => {
