@@ -131,6 +131,10 @@ const createPostsStore = (postsRepository: PostRepository) => createStore<PostsS
       return;
     }
 
+    if (get().isLoadingPosts !== RequestStatus.Idle) {
+      return;
+    }
+
     set({isLoadingPosts: RequestStatus.Loading})
     let {posts: fetchedPosts, error} = await postsRepository.getAllPosts();
      if (error !== undefined) {
@@ -143,7 +147,7 @@ const createPostsStore = (postsRepository: PostRepository) => createStore<PostsS
       return;
     }
 
-    set({isLoadingPosts: RequestStatus.Success})
+    set({isLoadingPosts: RequestStatus.Idle})
   
     set({posts: [...get().posts, ...fetchedPosts]})
    

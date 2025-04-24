@@ -32,9 +32,14 @@ export class VideosAPIService {
 
          try {
             let response = await axios.get<YoutubeVideosResponse>(videosEndpointURL, {params})
-           // this.updateNextVideosPageToken(response.data.nextPageToken)
-            this.nextVideosPageToken = response.data.nextPageToken
-            return {
+           
+            if (response.data.nextPageToken === undefined) {
+                this.nextVideosPageToken = null
+            } else {
+                
+                this.nextVideosPageToken = response.data.nextPageToken
+            }
+             return {
                 value: response.data,
                 type: ResultType.Success
             }

@@ -27,9 +27,9 @@ const Home: React.FC<HomeProps> = (props) => {
   }, []);
 
   const handleLoadmorePosts = async () => {
-    if (postsStore.isLoadingPosts !== RequestStatus.Success) {
-      return;
-    }
+    // if (postsStore.isLoadingPosts !== RequestStatus.Idle) {
+    //   return;
+    // }
 
     try {
       await postsStore.loadPosts();
@@ -47,7 +47,7 @@ const Home: React.FC<HomeProps> = (props) => {
       {postsStore.isLoadingPosts === RequestStatus.Loading &&
       postsStore.isEmpty() ? (
         <ActivityIndicator size={'large'} />
-      ) : postsStore.isLoadingPosts === RequestStatus.Success &&
+      ) : postsStore.isLoadingPosts === RequestStatus.Idle &&
         postsStore.isEmpty() ? (
         <Text>No Posts Available</Text>
       ) : (
