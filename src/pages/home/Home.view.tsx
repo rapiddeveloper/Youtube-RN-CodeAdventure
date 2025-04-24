@@ -1,6 +1,6 @@
 // Generated with util/create-view.js
 import React, { useCallback } from 'react';
-import {FlatList, View, Text, Pressable, ListRenderItem} from 'react-native';
+import {FlatList,  Pressable,   ListRenderItemInfo} from 'react-native';
 
 import { HomeViewProps } from './Home.types';
 import  styles  from './Home.styles';
@@ -14,10 +14,17 @@ const HomeView: React.FC<HomeViewProps> = (props) => {
    const navigation = useNavigation<RootStackScreenProps<'PostDetails'>['navigation']>();
 
    
-  const renderItem = useCallback(
-    ({ item }: { item: Post }) => <MemoizedPostItem item={item} navigation={navigation} />,
-    [navigation]
-  );
+   const renderItem = ({ item }: ListRenderItemInfo<Post>) => {
+     return (
+      <Pressable
+        onPress={() => {
+          navigation.navigate('PostDetails', { post: item });
+        }}
+      >
+        <PostView post={item} />
+      </Pressable>
+    );
+   }
 
    if (props.posts.length === 0) {
      return null
@@ -37,19 +44,8 @@ const HomeView: React.FC<HomeViewProps> = (props) => {
    )
 };
 
-const PostItem: React.FC<{ item: Post; navigation: any }> = ({ item, navigation }) => {
-  return (
-    <Pressable
-      onPress={() => {
-        navigation.navigate('PostDetails', { post: item });
-      }}
-    >
-      <PostView post={item} />
-    </Pressable>
-  );
-};
+ 
 
-const MemoizedPostItem = React.memo(PostItem);
-
+ 
 
 export default HomeView;
