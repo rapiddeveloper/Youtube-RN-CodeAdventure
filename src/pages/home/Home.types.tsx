@@ -4,4 +4,5 @@ import { Post } from "../../Domain/Models/Post";
 export interface HomeProps {};
 export interface HomeViewProps {
     posts: Post[]
+    onLoadmorePosts: () => Promise<void>
 };

@@ -8,22 +8,32 @@ export class VideosAPIService {
 
     private apiKey = "AIzaSyB-8s0cTHI5xXxD-WjqpwRJm2NpBsmJb_Q"
     private baseURL = "https://www.googleapis.com"
+    private nextVideosPageToken: string | null = null
     constructor() {
         
     }
 
+    public get canGetMoreVideos(): boolean {
+        return this.nextVideosPageToken !== null && this.nextVideosPageToken !== ""
+    }
     async getYoutubeVideos(): Promise<Result<YoutubeVideosResponse, Error>> {
         const videosEndpointURL = `${this.baseURL}/youtube/v3/videos`
 
-         const params = {
+         const params: DataObj = {
             part: "snippet,statistics",
             chart: "mostPopular",
             maxResults: 10,
             key: this.apiKey
         }
 
-        try {
+        if (this.canGetMoreVideos) {
+            params["pageToken"] = this.nextVideosPageToken
+        }
+
+         try {
             let response = await axios.get<YoutubeVideosResponse>(videosEndpointURL, {params})
+           // this.updateNextVideosPageToken(response.data.nextPageToken)
+            this.nextVideosPageToken = response.data.nextPageToken
             return {
                 value: response.data,
                 type: ResultType.Success
@@ -41,6 +51,8 @@ export class VideosAPIService {
                 type: ResultType.Failure
             }
         }
+
+        
      }
 
      async getChannels(idList: string[]): Promise<Result<YoutubeChannelsResponse, Error>> {

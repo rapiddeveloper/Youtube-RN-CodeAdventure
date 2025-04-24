@@ -12,6 +12,12 @@ class PostRepository extends PostRepositoryAbstract {
         this.service = service
     }
 
+    
+    public get canLoadmorePosts(): boolean {
+        return this.service.canGetMoreVideos
+    }
+    
+
     async getPostsByIds(ids: string[]): Promise<Post[]> {
         return []
     }
@@ -47,7 +53,8 @@ class PostRepository extends PostRepositoryAbstract {
             posts.push(post)
            
        }
-        return {posts}
+        // update next page token
+         return {posts}
     }
 
     private formatViewCountString(input: string): string {

@@ -10,6 +10,7 @@ export interface PostsStore {
   posts: Post[]
   loadPosts: () => Promise<void>
   isLoadingPosts: RequestStatus
+  isEmpty: () => boolean
 }
 
 /*
@@ -123,22 +124,33 @@ const createPostsStore = (postsRepository: PostRepository) => createStore<PostsS
   isLoadingPosts: RequestStatus.Idle,
   posts: [],
   loadPosts: async ():Promise<void> => {
+     console.log("loading")
+     console.log(get().posts.length)
+    // test if can load more posts
+    if (get().posts.length > 0 && !postsRepository.canLoadmorePosts) {
+      return;
+    }
+
     set({isLoadingPosts: RequestStatus.Loading})
-    let {posts, error} = await postsRepository.getAllPosts();
+    let {posts: fetchedPosts, error} = await postsRepository.getAllPosts();
      if (error !== undefined) {
       set({isLoadingPosts: RequestStatus.Idle})
       return;
     }
 
-    if (posts === undefined) {
+    if (fetchedPosts === undefined) {
       set({isLoadingPosts: RequestStatus.Idle})
       return;
     }
 
     set({isLoadingPosts: RequestStatus.Success})
-    set({posts: posts})
+  
+    set({posts: [...get().posts, ...fetchedPosts]})
    
    },
+   isEmpty: (): boolean => {
+    return get().posts.length === 0
+   }
 }));
 
 
